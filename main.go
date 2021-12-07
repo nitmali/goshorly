@@ -40,7 +40,7 @@ func main() {
 	}
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		return c.Render("home", fiber.Map{})
+		return c.Render("views/home", fiber.Map{})
 	})
 
 	type EUrl struct {
@@ -50,7 +50,7 @@ func main() {
 	app.Get("/:id", func(c *fiber.Ctx) error {
 		val, err := client.Get(c.Params("id")).Result()
 		if err != nil {
-			return c.Render("404", fiber.Map{
+			return c.Render("views/404", fiber.Map{
 				"BASEURL": c.Protocol() + "://" + c.Hostname(),
 			})
 		}
@@ -61,7 +61,7 @@ func main() {
 		Max:        10,
 		Expiration: 60 * time.Second,
 		LimitReached: func(c *fiber.Ctx) error {
-			return c.Render("home", fiber.Map{
+			return c.Render("views/home", fiber.Map{
 				"ERR": "You have reached the limit of requests! Please check back later. (1 minute)",
 			})
 		},
@@ -70,13 +70,13 @@ func main() {
 	app.Post("/", func(c *fiber.Ctx) error {
 		u := new(EUrl)
 		if err := c.BodyParser(u); err != nil {
-			return c.Render("home", fiber.Map{
+			return c.Render("views/home", fiber.Map{
 				"ERR": "Parsing Error",
 			})
 		}
 
 		if !regexp.MustCompile(`^(http|https|mailto|ts3server)://`).MatchString(u.URL) {
-			return c.Render("home", fiber.Map{
+			return c.Render("views/home", fiber.Map{
 				"ERR": "Invalid URL, please check and try again.",
 			})
 		}
@@ -84,7 +84,7 @@ func main() {
 		id, err := gonanoid.New(8)
 
 		if err != nil {
-			return c.Render("home", fiber.Map{
+			return c.Render("views/home", fiber.Map{
 				"ERR": err.Error(),
 			})
 		}
@@ -92,14 +92,14 @@ func main() {
 		err = client.Set(id, u.URL, 1296000*time.Second).Err()
 
 		if err != nil {
-			return c.Render("home", fiber.Map{
+			return c.Render("views/home", fiber.Map{
 				"ERR": err.Error(),
 			})
 		}
 
 		fURL := c.Protocol() + "://" + c.Hostname() + "/" + id
 
-		return c.Render("home", fiber.Map{
+		return c.Render("views/home", fiber.Map{
 			"URL": fURL,
 		})
 	})
