@@ -6,32 +6,74 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link href="https://bootswatch.com/5/darkly/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+    <link href="https://bootswatch.com/4/darkly/bootstrap.min.css" rel="stylesheet">
 </head>
+
+<style>
+    html {
+        height: 100%;
+    }
+
+    body {
+        height: 100%;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+    }
+
+    footer {
+        background-color: #303030;
+        padding: 10px;
+    }
+</style>
 
 <body>
     <br><br>
     <div class="container">
-        <div class="mt-2 mb-4 bg-secondary rounded-3">
-            <div class="container-fluid py-5">
-                <h1 class="display-5 fw-bold">goshortly</h1>
-                <p class="col-md-8 fs-4">An dead simple & fast URL Shortner</p>
-                <p class="col-md-8 fs-4">All shortend URLs will be available for 30days</p>
-                <hr>
-                <form method="post" action="#">
-                    <fieldset>
-                        <div class="container">
-                            <input type="text" class="form-control" id="surl" name="surl" placeholder="https://google.de" required>   
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </fieldset>
-                </form>
-            </div>
+        <div class="jumbotron">
+            <h1>goshortly</h1>
+            <p>An dead simple & fast URL Shortner. <br>
+                All shortend URLs will be available for 30days!
+            </p>
+            <hr>
+            <form method="post" action="#">
+                <fieldset>
+                    <input type="text" class="form-control" id="surl" name="surl" placeholder="https://google.de"
+                        required>
+                    <br>
+                    <center>
+                        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                    </center>
+                </fieldset>
+            </form>
         </div>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
+        <!-- URL PASS CHECK -->
+        {{ if .URL }}
+        <div style="padding-right: 20px;" class="alert alert-dismissible alert-success">
+            <input id="foo" class="form-control" value="{{ .URL }}" readonly>
+            <br>
+            <center>
+                <button class="btn-copy btn btn-success" data-clipboard-target="#foo">
+                    Copy to clipboard
+                </button>
+            </center>
+        </div>
+        {{ end }}
+
+    </div>
+    <footer>
+        <center>
+            Made with <a href="https://git.ucode.space/Phil/goshorly"><i class="fas fa-code-branch"></i>
+                Phil/goshortly</a>
+        </center>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script>
+    <script>
+        new ClipboardJS('body > div > div.alert.alert-dismissible.alert-success > center > button');
     </script>
 </body>
+
 </html>

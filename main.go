@@ -21,8 +21,8 @@ func main() {
 	})
 
 	client := redis.NewClient(&redis.Options{
-		Addr:     "db:6379",
-		Password: "abc123",
+		Addr:     "redis:6379",
+		Password: "",
 		DB:       0,
 	})
 
@@ -37,7 +37,7 @@ func main() {
 	})
 
 	type EUrl struct {
-		URL string `json:"surl" xml:"surl" form:"surl"`
+		URL string `form:"surl"`
 	}
 
 	app.Get("/:id", func(c *fiber.Ctx) error {
@@ -62,8 +62,8 @@ func main() {
 			return err
 		}
 
-		if !regexp.MustCompile(`^(http|https)://`).MatchString(u.URL) {
-			c.Status(http.StatusBadRequest).SendString("Invalid URL")
+		if !regexp.MustCompile(`^(http|https|mailto|ts3server)://`).MatchString(u.URL) {
+			return c.Status(http.StatusBadRequest).SendString("Invalid URL")
 		}
 
 		id, err := gonanoid.New(8)
@@ -78,7 +78,11 @@ func main() {
 			c.SendString(err.Error())
 		}
 
-		return c.SendString("https://" + c.Hostname() + "/" + id)
+		fURL := c.Protocol() + "://" + c.Hostname() + "/" + id
+
+		return c.Render("home", fiber.Map{
+			"URL": fURL,
+		})
 	})
 
 	log.Fatal(app.Listen(":3000"))
