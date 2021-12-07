@@ -68,7 +68,7 @@ func main() {
 
 		if !regexp.MustCompile(`^(http|https|mailto|ts3server)://`).MatchString(u.URL) {
 			return c.Render("home", fiber.Map{
-				"ERR": err.Error(),
+				"ERR": "Invalid URL, please check and try again.",
 			})
 		}
 
