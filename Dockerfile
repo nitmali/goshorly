@@ -2,8 +2,8 @@ FROM golang:latest
 
 COPY . /app
 
-WOKRDIR /app
+WORKDIR /app
 
 RUN go mod download
 
-CMD["go", "run", "."]
+CMD ["go", "run", "."]
