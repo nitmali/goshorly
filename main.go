@@ -14,10 +14,10 @@ import (
 	gonanoid "github.com/matoous/go-nanoid/v2"
 )
 
-func main() {
+//go:embed views/*
+var viewsfs embed.FS
 
-	//go:embed views/*
-	var viewsfs embed.FS
+func main() {
 
 	engine := html.NewFileSystem(http.FS(viewsfs), ".html")
 
