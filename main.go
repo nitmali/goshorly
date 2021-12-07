@@ -43,8 +43,8 @@ func main() {
 	app.Get("/:id", func(c *fiber.Ctx) error {
 		val, err := client.Get(c.Params("id")).Result()
 		if err != nil {
-			return c.Render("home", fiber.Map{
-				"ERR": "404 URL not found",
+			return c.Render("404", fiber.Map{
+				"BASEURL": c.Protocol() + "://" + c.Hostname(),
 			})
 		}
 		return c.Redirect(val)
