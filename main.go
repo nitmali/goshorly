@@ -7,6 +7,7 @@ import (
 	"regexp"
 	"time"
 
+	"git.ucode.space/Phil/goshorly/utils"
 	"github.com/go-redis/redis"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
@@ -18,6 +19,8 @@ import (
 var viewsfs embed.FS
 
 func main() {
+
+	utils.Init_ENV()
 
 	engine := html.NewFileSystem(http.FS(viewsfs), ".html")
 
@@ -51,7 +54,7 @@ func main() {
 		val, err := client.Get(c.Params("id")).Result()
 		if err != nil {
 			return c.Render("views/404", fiber.Map{
-				"BASEURL": c.Protocol() + "://" + c.Hostname(),
+				"BASEURL": utils.URL,
 			})
 		}
 		return c.Redirect(val)
@@ -97,12 +100,12 @@ func main() {
 			})
 		}
 
-		fURL := c.Protocol() + "://" + c.Hostname() + "/" + id
+		fURL := utils.URL + id
 
 		return c.Render("views/home", fiber.Map{
 			"URL": fURL,
 		})
 	})
 
-	log.Fatal(app.Listen(":3000"))
+	log.Fatal(app.Listen(":" + utils.PORT))
 }

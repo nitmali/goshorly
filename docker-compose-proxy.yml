@@ -1,8 +1,13 @@
 version: "3"
 services:
   web:
-    # build: . # Only if you want to Build the image on your own Server!
+    # build: .            # Only if you want to Build the image on your own Server!
     image: registry.ucode.space/phil/goshorly:latest
+    environment:
+      - HOST=example.org  # Domain or IP-Adress
+      - HTTPS=true        # If you want to use HTTPS
+      - PROXY=true        # If you want to use a Reverse Proxy
+      - PORT=3000         # The Port you want to use
     depends_on:
       - redis
     restart: always
@@ -17,7 +22,7 @@ services:
   caddy:
     image: caddy:2
     restart: always
-    command: caddy reverse-proxy --from https://my-domain.com:443 --to http://web:3000
+    command: caddy reverse-proxy --from https://example.org:443 --to http://web:3000
     ports:
       - 80:80
       - 443:443
