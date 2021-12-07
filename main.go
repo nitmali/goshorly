@@ -43,7 +43,9 @@ func main() {
 	app.Get("/:id", func(c *fiber.Ctx) error {
 		val, err := client.Get(c.Params("id")).Result()
 		if err != nil {
-			return c.SendString(err.Error())
+			return c.Render("home", fiber.Map{
+				"ERR": "404 URL not found",
+			})
 		}
 		return c.Redirect(val)
 	})
