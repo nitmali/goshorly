@@ -1,4 +1,4 @@
-FROM golang:alpine as builder
+FROM golang:alpine
 
 RUN apk add --no-cache gcc libgo
 
@@ -8,8 +8,4 @@ COPY . .
 RUN go get -d -v ./...
 RUN go build -o app .
 
-FROM scratch as production
-
-WORKDIR /goshorly
-COPY --from=builder /go/src/git.ucode.space/goshorly/app .
 CMD ["./app"]
