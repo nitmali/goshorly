@@ -1,3 +1,15 @@
+stages:
+  - test
+  - build
+
+format:
+  image: golang:latest
+  stage: test
+  script:
+    - go fmt $(go list ./... | grep -v /vendor/)
+    - go vet $(go list ./... | grep -v /vendor/)
+    - go test -race $(go list ./... | grep -v /vendor/)
+
 docker-build:
   image: docker:latest
   stage: build
