@@ -52,30 +52,40 @@ func main() {
 		Max:        10,
 		Expiration: 60 * time.Second,
 		LimitReached: func(c *fiber.Ctx) error {
-			return c.Render("slowdown", fiber.Map{})
+			return c.Render("home", fiber.Map{
+				"ERR": "You have reached the limit of requests! Please check back later. (1 minute)",
+			})
 		},
 	}))
 
 	app.Post("/", func(c *fiber.Ctx) error {
 		u := new(EUrl)
 		if err := c.BodyParser(u); err != nil {
-			return err
+			return c.Render("home", fiber.Map{
+				"ERR": err.Error(),
+			})
 		}
 
 		if !regexp.MustCompile(`^(http|https|mailto|ts3server)://`).MatchString(u.URL) {
-			return c.Status(http.StatusBadRequest).SendString("Invalid URL")
+			return c.Render("home", fiber.Map{
+				"ERR": err.Error(),
+			})
 		}
 
 		id, err := gonanoid.New(8)
 
 		if err != nil {
-			c.SendString(err.Error())
+			return c.Render("home", fiber.Map{
+				"ERR": err.Error(),
+			})
 		}
 
 		err = client.Set(id, u.URL, 1296000*time.Second).Err()
 
 		if err != nil {
-			c.SendString(err.Error())
+			return c.Render("home", fiber.Map{
+				"ERR": err.Error(),
+			})
 		}
 
 		fURL := c.Protocol() + "://" + c.Hostname() + "/" + id

@@ -61,6 +61,13 @@
         </div>
         {{ end }}
 
+        <!-- URL FAIL CHECK -->
+        {{ if .ERR }}
+        <div style="padding-right: 20px;" class="alert alert-dismissible alert-danger">
+            <p>{{ .ERR }}</p>
+        </div>
+        {{ end }}
+
     </div>
     <footer>
         <center>
