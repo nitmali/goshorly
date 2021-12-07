@@ -1,7 +1,7 @@
 ![](https://git.ucode.space/Phil/goshorly/badges/main/pipeline.svg)
 # goshorly
 
-An easy self-hosted Link shortner in Golang with Redis <3
+An easy self-hosted Link shortener in Golang with Redis <3
 
 [Live-Demo](https://gly.one)
 
