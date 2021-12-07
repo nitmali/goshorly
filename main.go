@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"log"
 	"net/http"
 	"regexp"
@@ -14,10 +15,16 @@ import (
 )
 
 func main() {
-	engine := html.NewFileSystem(http.Dir("./views"), ".html")
+
+	//go:embed views/*
+	var viewsfs embed.FS
+
+	engine := html.NewFileSystem(http.FS(viewsfs), ".html")
 
 	app := fiber.New(fiber.Config{
-		Views: engine,
+		CaseSensitive: true,
+		ServerHeader:  "goshorly",
+		Views:         engine,
 	})
 
 	client := redis.NewClient(&redis.Options{
