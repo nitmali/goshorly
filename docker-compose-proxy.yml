@@ -1,0 +1,32 @@
+version: "3"
+services:
+  web:
+    # build: . # Only if you want to Build the image on your own Server!
+    image: registry.ucode.space/phil/goshorly:latest
+    depends_on:
+      - redis
+    restart: always
+
+  redis:
+    image: redis:alpine
+    command: redis-server --appendonly yes
+    volumes:  
+      - db:/data
+    restart: always
+
+  caddy:
+    image: caddy:2
+    restart: always
+    command: caddy reverse-proxy --from https://my-domain.com:443 --to http://web:3000
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - caddy:/data
+    depends_on:
+      - web
+      - redis
+
+volumes:
+  caddy:
+  db:
