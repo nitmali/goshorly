@@ -1,7 +1,8 @@
 version: "3"
 services:
   web:
-    build: . 
+    # build: . # Only if you want to Build the image on your own Server!
+    image: registry.ucode.space/phil/goshorly:latest
     ports:
       - "3000:3000"
     depends_on:
