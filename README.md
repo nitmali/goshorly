@@ -3,6 +3,9 @@
 
 An easy self-hosted Link shortner in Golang with Redis <3
 
+[Live-Demo](https://gly.one)
+
+
 **WARNING:**
 - goshorly is in an early stage, it is not an Final Version!
 
