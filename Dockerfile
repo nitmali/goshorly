@@ -1,9 +1,9 @@
 FROM golang:latest
 
-COPY . /app
+WORKDIR /go/src/git.ucode.space/goshortly
 
-WORKDIR /app
+COPY . .
 
-RUN go mod download
+RUN go get -d -v ./...
 
-CMD ["go", "run", "."]
+CMD ["go", "run", "main.go"]
