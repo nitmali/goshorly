@@ -1,11 +1,15 @@
-FROM golang:alpine
+FROM golang:alpine as builder
 
-WORKDIR /go/src/git.ucode.space/goshortly
+RUN apk add --no-cache gcc libgo
 
+WORKDIR /go/src/git.ucode.space/goshorly
 COPY . .
 
-RUN apk add gcc libgo
-
 RUN go get -d -v ./...
+RUN go build -o app .
 
-CMD ["go", "run", "main.go"]
+FROM scratch as production
+
+WORKDIR /goshorly
+COPY --from=builder /go/src/git.ucode.space/goshorly/app .
+CMD ["./app"]
