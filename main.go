@@ -62,7 +62,7 @@ func main() {
 		u := new(EUrl)
 		if err := c.BodyParser(u); err != nil {
 			return c.Render("home", fiber.Map{
-				"ERR": err.Error(),
+				"ERR": "Parsing Error",
 			})
 		}
 
