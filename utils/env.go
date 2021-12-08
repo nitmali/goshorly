@@ -43,11 +43,9 @@ func Init_env_vars() {
 		PORT = UPORT
 	}
 
-	UREDIS_URI, err := os.LookupEnv("REDIS_URI")
-	if !err {
+	UREDIS_URI, _ := os.LookupEnv("REDIS_URI")
+	if UREDIS_URI != "" {
 		REDIS_URI = "redis"
-	} else {
-		REDIS_URI = UREDIS_URI
 	}
 
 	create_string()

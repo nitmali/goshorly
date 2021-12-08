@@ -4,15 +4,13 @@ import (
 	"embed"
 	"log"
 	"net/http"
-	"regexp"
-	"time"
 
+	"git.ucode.space/Phil/goshorly/db"
+	"git.ucode.space/Phil/goshorly/routes"
 	"git.ucode.space/Phil/goshorly/utils"
-	"github.com/go-redis/redis"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/template/html"
-	gonanoid "github.com/matoous/go-nanoid/v2"
 )
 
 //go:embed views/*
@@ -23,112 +21,22 @@ func main() {
 	utils.Init_env_vars()
 	utils.Init_build_vars()
 
+	db.Init_redis()
+
 	engine := html.NewFileSystem(http.FS(viewsfs), ".html")
 
 	app := fiber.New(fiber.Config{
 		CaseSensitive: true,
-		ServerHeader:  "goshorly",
 		Views:         engine,
 	})
 
-	client := redis.NewClient(&redis.Options{
-		Addr:     "redis:6379",
-		Password: "",
-		DB:       0,
-	})
+	app.Get("/", routes.Gethome)
 
-	_, err := client.Ping().Result()
+	app.Get("/:id", routes.ID)
 
-	if err != nil {
-		log.Fatal(err)
-	}
+	app.Use(limiter.New(utils.ConfigLimiter))
 
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.Render("views/home", fiber.Map{
-			"GitCommitShort": utils.GitCommitShort,
-			"GitBranch":      utils.GitBranch,
-			"GitBuild":       utils.GitBuild,
-		})
-	})
-
-	type EUrl struct {
-		URL string `form:"surl"`
-	}
-
-	app.Get("/:id", func(c *fiber.Ctx) error {
-		val, err := client.Get(c.Params("id")).Result()
-		if err != nil {
-			return c.Render("views/404", fiber.Map{
-				"BASEURL": utils.URL,
-			})
-		}
-		return c.Redirect(val)
-	})
-
-	app.Use(limiter.New(limiter.Config{
-		Max:        10,
-		Expiration: 60 * time.Second,
-		LimitReached: func(c *fiber.Ctx) error {
-			return c.Render("views/home", fiber.Map{
-				"ERR":            "You have reached the limit of requests! Please check back later. (1 minute)",
-				"GitCommitShort": utils.GitCommitShort,
-				"GitBranch":      utils.GitBranch,
-				"GitBuild":       utils.GitBuild,
-			})
-		},
-	}))
-
-	app.Post("/", func(c *fiber.Ctx) error {
-		u := new(EUrl)
-		if err := c.BodyParser(u); err != nil {
-			return c.Render("views/home", fiber.Map{
-				"ERR":            "Parsing Error",
-				"GitCommitShort": utils.GitCommitShort,
-				"GitBranch":      utils.GitBranch,
-				"GitBuild":       utils.GitBuild,
-			})
-		}
-
-		if !regexp.MustCompile(`^(http|https|mailto|ts3server)://`).MatchString(u.URL) {
-			return c.Render("views/home", fiber.Map{
-				"ERR":            "Invalid URL, please check and try again.",
-				"GitCommitShort": utils.GitCommitShort,
-				"GitBranch":      utils.GitBranch,
-				"GitBuild":       utils.GitBuild,
-			})
-		}
-
-		id, err := gonanoid.New(8)
-
-		if err != nil {
-			return c.Render("views/home", fiber.Map{
-				"ERR":            err.Error(),
-				"GitCommitShort": utils.GitCommitShort,
-				"GitBranch":      utils.GitBranch,
-				"GitBuild":       utils.GitBuild,
-			})
-		}
-
-		err = client.Set(id, u.URL, 1296000*time.Second).Err()
-
-		if err != nil {
-			return c.Render("views/home", fiber.Map{
-				"ERR":            err.Error(),
-				"GitCommitShort": utils.GitCommitShort,
-				"GitBranch":      utils.GitBranch,
-				"GitBuild":       utils.GitBuild,
-			})
-		}
-
-		fURL := utils.URL + id
-
-		return c.Render("views/home", fiber.Map{
-			"URL":            fURL,
-			"GitCommitShort": utils.GitCommitShort,
-			"GitBranch":      utils.GitBranch,
-			"GitBuild":       utils.GitBuild,
-		})
-	})
+	app.Post("/", routes.Posthome)
 
 	log.Fatal(app.Listen(":" + utils.PORT))
 }
