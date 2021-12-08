@@ -2,7 +2,6 @@ package main
 
 import (
 	"embed"
-	"fmt"
 	"log"
 	"net/http"
 	"regexp"
@@ -23,8 +22,6 @@ func main() {
 
 	utils.Init_env_vars()
 	utils.Init_build_vars()
-
-	fmt.Println(utils.GitBuild)
 
 	engine := html.NewFileSystem(http.FS(viewsfs), ".html")
 
