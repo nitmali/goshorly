@@ -5,14 +5,17 @@ import (
 	"os"
 )
 
-var HOST string
-var HTTPS string
-var PROXY bool
-var PORT string
-
-var URL string
+var (
+	HOST      string
+	PORT      string
+	HTTPS     string
+	PROXY     bool
+	URL       string
+	REDIS_URI string
+)
 
 func Init_env_vars() {
+
 	UHOST, err := os.LookupEnv("HOST")
 	if !err {
 		log.Fatal("HOST enviroment variable not found, please set it!")
@@ -38,6 +41,13 @@ func Init_env_vars() {
 		PORT = "3000"
 	} else {
 		PORT = UPORT
+	}
+
+	UREDIS_URI, err := os.LookupEnv("REDIS_URI")
+	if !err {
+		REDIS_URI = "redis"
+	} else {
+		REDIS_URI = UREDIS_URI
 	}
 
 	create_string()

@@ -5,9 +5,10 @@ services:
     image: registry.ucode.space/phil/goshorly:latest
     environment:
       - HOST=example.org  # Domain or IP-Adress
+      - PORT=3000         # The Port you want to use
       - HTTPS=true        # If you want to use HTTPS
       - PROXY=true        # If you want to use a Reverse Proxy
-      - PORT=3000         # The Port you want to use
+      - REDIS_URI=redis   # The Redis-URI (name of redis container OOTB)
     depends_on:
       - redis
     restart: always
