@@ -1,12 +1,12 @@
 FROM golang:alpine as builder
 
-RUN apk add --no-cache gcc libgo
+RUN apk add --no-cache gcc libgo git
 
 WORKDIR /go/src/git.ucode.space/goshorly
 COPY . .
 
 RUN go get -d -v ./...
-RUN ./build-ci.sh
+RUN chmod +x && ./build-ci.sh
 
 FROM gruebel/upx:latest as upx
 COPY --from=builder /go/src/git.ucode.space/goshorly/app /app.org
