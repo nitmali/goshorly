@@ -2,6 +2,7 @@ package main
 
 import (
 	"embed"
+	"fmt"
 	"log"
 	"net/http"
 	"regexp"
@@ -20,7 +21,10 @@ var viewsfs embed.FS
 
 func main() {
 
-	utils.Init_ENV()
+	utils.Init_env_vars()
+	utils.Init_build_vars()
+
+	fmt.Println(utils.GitBuild)
 
 	engine := html.NewFileSystem(http.FS(viewsfs), ".html")
 
@@ -43,7 +47,11 @@ func main() {
 	}
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		return c.Render("views/home", fiber.Map{})
+		return c.Render("views/home", fiber.Map{
+			"GitCommitShort": utils.GitCommitShort,
+			"GitBranch":      utils.GitBranch,
+			"GitBuild":       utils.GitBuild,
+		})
 	})
 
 	type EUrl struct {
@@ -65,7 +73,10 @@ func main() {
 		Expiration: 60 * time.Second,
 		LimitReached: func(c *fiber.Ctx) error {
 			return c.Render("views/home", fiber.Map{
-				"ERR": "You have reached the limit of requests! Please check back later. (1 minute)",
+				"ERR":            "You have reached the limit of requests! Please check back later. (1 minute)",
+				"GitCommitShort": utils.GitCommitShort,
+				"GitBranch":      utils.GitBranch,
+				"GitBuild":       utils.GitBuild,
 			})
 		},
 	}))
@@ -74,13 +85,19 @@ func main() {
 		u := new(EUrl)
 		if err := c.BodyParser(u); err != nil {
 			return c.Render("views/home", fiber.Map{
-				"ERR": "Parsing Error",
+				"ERR":            "Parsing Error",
+				"GitCommitShort": utils.GitCommitShort,
+				"GitBranch":      utils.GitBranch,
+				"GitBuild":       utils.GitBuild,
 			})
 		}
 
 		if !regexp.MustCompile(`^(http|https|mailto|ts3server)://`).MatchString(u.URL) {
 			return c.Render("views/home", fiber.Map{
-				"ERR": "Invalid URL, please check and try again.",
+				"ERR":            "Invalid URL, please check and try again.",
+				"GitCommitShort": utils.GitCommitShort,
+				"GitBranch":      utils.GitBranch,
+				"GitBuild":       utils.GitBuild,
 			})
 		}
 
@@ -88,7 +105,10 @@ func main() {
 
 		if err != nil {
 			return c.Render("views/home", fiber.Map{
-				"ERR": err.Error(),
+				"ERR":            err.Error(),
+				"GitCommitShort": utils.GitCommitShort,
+				"GitBranch":      utils.GitBranch,
+				"GitBuild":       utils.GitBuild,
 			})
 		}
 
@@ -96,14 +116,20 @@ func main() {
 
 		if err != nil {
 			return c.Render("views/home", fiber.Map{
-				"ERR": err.Error(),
+				"ERR":            err.Error(),
+				"GitCommitShort": utils.GitCommitShort,
+				"GitBranch":      utils.GitBranch,
+				"GitBuild":       utils.GitBuild,
 			})
 		}
 
 		fURL := utils.URL + id
 
 		return c.Render("views/home", fiber.Map{
-			"URL": fURL,
+			"URL":            fURL,
+			"GitCommitShort": utils.GitCommitShort,
+			"GitBranch":      utils.GitBranch,
+			"GitBuild":       utils.GitBuild,
 		})
 	})
 

@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"log"
 	"os"
 )
@@ -13,7 +12,7 @@ var PORT string
 
 var URL string
 
-func Init_ENV() {
+func Init_env_vars() {
 	UHOST, err := os.LookupEnv("HOST")
 	if !err {
 		log.Fatal("HOST enviroment variable not found, please set it!")
@@ -51,6 +50,4 @@ func create_string() {
 	} else {
 		URL = HTTPS + "://" + HOST + "/"
 	}
-
-	fmt.Println(URL)
 }

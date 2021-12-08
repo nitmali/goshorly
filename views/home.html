@@ -69,10 +69,15 @@
         {{ end }}
 
     </div>
+
+    <!-- Footer with Build-Check -->
     <footer>
         <center>
             Made with <a href="https://git.ucode.space/Phil/goshorly"><i class="fas fa-code-branch"></i>
                 Phil/goshorly</a>
+                {{ if .GitBuild }}
+                {{ .GitCommitShort }}/{{ .GitBranch }}
+                {{ end }}
         </center>
     </footer>
 

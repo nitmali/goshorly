@@ -6,7 +6,7 @@ WORKDIR /go/src/git.ucode.space/goshorly
 COPY . .
 
 RUN go get -d -v ./...
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
+RUN ./build-ci.sh
 
 FROM gruebel/upx:latest as upx
 COPY --from=builder /go/src/git.ucode.space/goshorly/app /app.org
