@@ -6,7 +6,7 @@ WORKDIR /go/src/git.ucode.space/goshorly
 COPY . .
 
 RUN go get -d -v ./...
-RUN chmod +x && ./build-ci.sh
+RUN chmod +x build-ci.sh && ./build-ci.sh
 
 FROM gruebel/upx:latest as upx
 COPY --from=builder /go/src/git.ucode.space/goshorly/app /app.org
