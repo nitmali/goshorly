@@ -10,5 +10,5 @@ RUN chmod +x build-ci.sh && ./build-ci.sh
 
 FROM scratch as production
 WORKDIR /goshorly
-COPY --from=upx /go/src/git.ucode.space/goshorly/app /goshorly/app
+COPY --from=builder /go/src/git.ucode.space/goshorly/app /goshorly/app
 CMD ["./app"]
