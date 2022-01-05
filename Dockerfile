@@ -8,11 +8,7 @@ COPY . .
 RUN go get -d -v ./...
 RUN chmod +x build-ci.sh && ./build-ci.sh
 
-FROM gruebel/upx:latest as upx
-COPY --from=builder /go/src/git.ucode.space/goshorly/app /app.org
-RUN upx --best --lzma -o /app /app.org
-
 FROM scratch as production
 WORKDIR /goshorly
-copy --from=upx /app /goshorly/app
+COPY --from=upx /go/src/git.ucode.space/goshorly/app /goshorly/app
 CMD ["./app"]
