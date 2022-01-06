@@ -32,7 +32,7 @@ gosec:
     - gosec ./...
 
 docker-build-prod-latest:
-  image: carlallen/docker:buildx
+  image: ezkrg/buildx
   stage: build
   services:
     - docker:dind
