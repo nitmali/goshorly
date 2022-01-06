@@ -1,6 +1,6 @@
 FROM golang:alpine as builder
 
-RUN apk add --no-cache gcc libgo git
+RUN apk add --no-cache git make build-base
 
 WORKDIR /go/src/git.ucode.space/goshorly
 COPY . .
