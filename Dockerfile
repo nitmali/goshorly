@@ -7,7 +7,7 @@ COPY . .
 
 RUN go get -d -v ./...
 RUN chmod +x build-ci.sh
-RUN ./build-ci.sh
+RUN ./go/src/git.ucode.space/goshorly/build-ci.sh
 
 FROM scratch as production
 WORKDIR /goshorly
