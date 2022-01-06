@@ -1,6 +1,9 @@
+
 variables:
   REPO_NAME: git.ucode.space/Phil/goshorly
+  DOCKER_BUILDKIT: 1
 
+  
 stages:
   - test
   - build
