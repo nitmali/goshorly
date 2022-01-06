@@ -44,8 +44,11 @@ docker-build-prod:
         tag=":$CI_COMMIT_REF_SLUG"
         echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
       fi
-    - docker build --pull -t "$CI_REGISTRY_IMAGE${tag}" .
-    - docker push "$CI_REGISTRY_IMAGE${tag}"
+    - docker-buildx create --use
+    - docker-buildx build
+      --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8
+      --tag $CI_REGISTRY_IMAGE${tag}
+      --push
   except:
     - merge_requests
 
