@@ -3,7 +3,7 @@ variables:
   REPO_NAME: git.ucode.space/Phil/goshorly
   DOCKER_BUILDKIT: 1
 
-  
+
 stages:
   - test
   - build
@@ -31,8 +31,8 @@ gosec:
     - go get -v -d .
     - gosec ./...
 
-docker-build-prod:
-  image: docker:latest
+docker-build-prod-latest:
+  image: carlallen/docker:buildx
   stage: build
   services:
     - docker:dind
@@ -40,20 +40,13 @@ docker-build-prod:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
     - |
-      if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
-        tag=""
-        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = 'latest'"
-      else
-        tag=":$CI_COMMIT_REF_SLUG"
-        echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
-      fi
-    - docker buildx create --use
-    - docker buildx build
-      --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8
-      --tag $CI_REGISTRY_IMAGE${tag}
-      --push
-  except:
-    - merge_requests
+        docker buildx build \
+          --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
+          --push \
+          --tag $CI_REGISTRY_IMAGE:latest \
+          .
+  only:
+    - main
 
 docker-build-MR-dry-run:
   image: docker:latest
