@@ -12,7 +12,7 @@ RUN go get -d -v ./...
 #     export I_GitBranch=$(git rev-parse --abbrev-ref HEAD) && \
 #     go build -a -installsuffix cgo -ldflags "-X $I_PACKAGE.GitCommitShort=$I_GitCommitShort -X $I_PACKAGE.GitBranch=$I_GitBranch" -o app .
 
-RUN go build -a -installsuffix cgo -o app .
+RUN go build -a -o app .
 
 FROM scratch as production
 WORKDIR /goshorly
