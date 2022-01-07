@@ -1,68 +1,71 @@
-
+# You can override the included template(s) by including variable overrides
+# SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
+# Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/#customizing-settings
+# Dependency Scanning customization: https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#customizing-the-dependency-scanning-settings
+# Note that environment variables can be set in several places
+# See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 variables:
   REPO_NAME: git.ucode.space/Phil/goshorly
   DOCKER_BUILDKIT: 1
-
-
 stages:
-  - test
-  - build
-
+- test
+- build
 format:
   image: golang:latest
   stage: test
   before_script:
-    - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
-    - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
-    - cd $GOPATH/src/$REPO_NAME
+  - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
+  - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
+  - cd $GOPATH/src/$REPO_NAME
   script:
-    - go fmt $(go list ./... | grep -v /vendor/)
-    - go vet $(go list ./... | grep -v /vendor/)
-    - go test -race $(go list ./... | grep -v /vendor/)
-
+  - go fmt $(go list ./... | grep -v /vendor/)
+  - go vet $(go list ./... | grep -v /vendor/)
+  - go test -race $(go list ./... | grep -v /vendor/)
 gosec:
   image: golang:latest
   before_script:
-    - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
-    - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
-    - cd $GOPATH/src/$REPO_NAME
+  - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
+  - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
+  - cd $GOPATH/src/$REPO_NAME
   script:
-    - go install github.com/securego/gosec/v2/cmd/gosec@latest
-    - go get -v -d .
-    - gosec ./...
-
+  - go install github.com/securego/gosec/v2/cmd/gosec@latest
+  - go get -v -d .
+  - gosec ./...
 docker-build-prod-latest:
   image: ezkrg/buildx
   stage: build
   services:
-    - docker:dind
+  - docker:dind
   before_script:
-    - docker buildx create --use
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  - docker buildx create --use
+  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - |
-        docker buildx build \
-          --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
-          --push \
-          --tag $CI_REGISTRY_IMAGE:latest \
-          .
+  - |
+    docker buildx build \
+      --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
+      --push \
+      --tag $CI_REGISTRY_IMAGE:latest \
+      .
   only:
-    - main
-
+  - main
 docker-build-MR-dry-run:
   image: docker:latest
   stage: build
   services:
-    - docker:dind
+  - docker:dind
   script:
-    - |
-      if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
-        tag=""
-        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = 'latest'"
-      else
-        tag=":$CI_COMMIT_REF_SLUG"
-        echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
-      fi
-    - docker build --pull -t "$CI_REGISTRY_IMAGE${tag}" .
+  - |
+    if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
+      tag=""
+      echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = 'latest'"
+    else
+      tag=":$CI_COMMIT_REF_SLUG"
+      echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
+    fi
+  - docker build --pull -t "$CI_REGISTRY_IMAGE${tag}" .
   only:
-    - merge_requests
+  - merge_requests
+sast:
+  stage: test
+include:
+- template: Security/SAST.gitlab-ci.yml
