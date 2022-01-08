@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"log"
 	"regexp"
 	"time"
 
@@ -31,6 +32,8 @@ func Posthome(c *fiber.Ctx) error {
 			"GitCommitShort": utils.GitCommitShort,
 			"GitBranch":      utils.GitBranch,
 			"GitBuild":       utils.GitBuild,
+			"TotalLinks":     db.GetTotalLinks(),
+			"TotalViews":     db.GetTotalViews(),
 		})
 	}
 
@@ -48,6 +51,8 @@ func Posthome(c *fiber.Ctx) error {
 			"GitCommitShort": utils.GitCommitShort,
 			"GitBranch":      utils.GitBranch,
 			"GitBuild":       utils.GitBuild,
+			"TotalLinks":     db.GetTotalLinks(),
+			"TotalViews":     db.GetTotalViews(),
 		})
 	}
 
@@ -67,6 +72,8 @@ func Posthome(c *fiber.Ctx) error {
 			"GitCommitShort": utils.GitCommitShort,
 			"GitBranch":      utils.GitBranch,
 			"GitBuild":       utils.GitBuild,
+			"TotalLinks":     db.GetTotalLinks(),
+			"TotalViews":     db.GetTotalViews(),
 		})
 	}
 
@@ -85,10 +92,19 @@ func Posthome(c *fiber.Ctx) error {
 			"GitCommitShort": utils.GitCommitShort,
 			"GitBranch":      utils.GitBranch,
 			"GitBuild":       utils.GitBuild,
+			"TotalLinks":     db.GetTotalLinks(),
+			"TotalViews":     db.GetTotalViews(),
 		})
 	}
 
 	fURL := utils.URL + id
+
+	// Increase Total Links into the DB
+	_, err = db.StatsIncreaseTotalLinks()
+
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
 
 	if u.CLI {
 		return c.Status(201).JSON(&fiber.Map{
@@ -102,5 +118,7 @@ func Posthome(c *fiber.Ctx) error {
 		"GitCommitShort": utils.GitCommitShort,
 		"GitBranch":      utils.GitBranch,
 		"GitBuild":       utils.GitBuild,
+		"TotalLinks":     db.GetTotalLinks(),
+		"TotalViews":     db.GetTotalViews(),
 	})
 }

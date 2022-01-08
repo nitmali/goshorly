@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"log"
+
 	"git.ucode.space/Phil/goshorly/db"
 	"git.ucode.space/Phil/goshorly/utils"
 	"github.com/gofiber/fiber/v2"
@@ -16,6 +18,10 @@ func ID(c *fiber.Ctx) error {
 				"url":   "URL not found",
 			})
 		} else {
+			_, err = db.StatsIncreaseViewsLinks()
+			if err != nil {
+				log.Fatal(err.Error())
+			}
 			return c.Status(301).JSON(&fiber.Map{
 				"error": false,
 				"url":   val,
@@ -27,6 +33,11 @@ func ID(c *fiber.Ctx) error {
 		return c.Render("views/404", fiber.Map{
 			"BASEURL": utils.URL,
 		})
+	}
+
+	_, err = db.StatsIncreaseViewsLinks()
+	if err != nil {
+		log.Fatal(err.Error())
 	}
 	return c.Redirect(val)
 }
