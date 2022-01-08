@@ -35,6 +35,9 @@
             <p>An dead simple & fast URL shortener. <br>
                 All shorten URLs will be available for 30days!
             </p>
+            {{ if and .TotalLinks .TotalViews }}
+            <p>This Instance has served over {{ .TotalLinks }} URLs and {{ .TotalViews }} total Views!</p>
+            {{ end }}
             <hr>
             <form method="post" action="#">
                 <fieldset>

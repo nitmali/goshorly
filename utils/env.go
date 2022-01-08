@@ -12,6 +12,7 @@ var (
 	PROXY     bool
 	URL       string
 	REDIS_URI string
+	ESTATS    string
 )
 
 func Init_env_vars() {
@@ -46,6 +47,13 @@ func Init_env_vars() {
 	UREDIS_URI, _ := os.LookupEnv("REDIS_URI")
 	if UREDIS_URI != "" {
 		REDIS_URI = "redis"
+	}
+
+	UESTATS, _ := os.LookupEnv("ENABLE_STATS")
+	if UESTATS != "false" {
+		ESTATS = "true"
+	} else {
+		ESTATS = "false"
 	}
 
 	create_string()

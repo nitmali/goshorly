@@ -1,14 +1,15 @@
 version: "3"
 services:
   web:
-    # build: .            # Only if you want to Build the image on your own Server!
+    # build: .                  # Only if you want to Build the image on your own Server!
     image: registry.ucode.space/phil/goshorly:latest
     environment:
-      - HOST=example.org  # Domain or IP-Adress
-      - PORT=3000         # The Port you want to use
-      - HTTPS=true        # If you want to use HTTPS
-      - PROXY=true        # If you want to use a Reverse Proxy
-      - REDIS_URI=redis   # The Redis-URI (name of redis container OOTB)
+      - HOST=127.0.0.1          # Domain or IP-Adress
+      - PORT=3000               # The Port you want to use
+      - HTTPS=true              # If you want to use HTTPS
+      - PROXY=true              # If you want to use a Reverse Proxy
+      - REDIS_URI=redis         # The Redis-URI (name of redis container OOTB)
+      - ENABLE_STATS=true       # Enables the /stats public frontend
     depends_on:
       - redis
     restart: always

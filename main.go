@@ -32,6 +32,10 @@ func main() {
 
 	app.Get("/", routes.Gethome)
 
+	if utils.ESTATS == "true" {
+		app.Get("/stats", routes.GetStats)
+	}
+
 	app.Get("/:id", routes.ID)
 
 	app.Use(limiter.New(utils.ConfigLimiter))
