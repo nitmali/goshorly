@@ -17,7 +17,7 @@ import (
 var viewsfs embed.FS
 
 func main() {
-
+	# Init Environment Variables
 	utils.Init_env_vars()
 	utils.Init_build_vars()
 
