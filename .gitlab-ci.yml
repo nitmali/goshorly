@@ -34,7 +34,7 @@ check-gosec:
   - merge_requests
 
 docker-build-prod-latest:
-  image: moby/buildkit
+  image: ezkrg/buildx
   stage: build
   services:
   - docker:dind
