@@ -34,10 +34,10 @@ check-gosec:
   - merge_requests
 
 docker-build-prod-latest:
-  image: moby/buildkit:rootless
+  image: moby/buildkit
   stage: build
   services:
-  - docker:dind-rootless
+  - docker:dind
   before_script:
   - docker buildx create --use
   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
