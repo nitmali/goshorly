@@ -37,7 +37,7 @@ docker-build-prod-latest:
   image: moby/buildkit:rootless
   stage: build
   services:
-  - docker:dind
+  - docker:dind-rootless
   before_script:
   - docker buildx create --use
   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
