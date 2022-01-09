@@ -1,18 +1,17 @@
 package db
 
 import (
-	"log"
 	"strconv"
 )
 
 func GetTotalLinks() int {
 	val1, err1 := Client.Get("total-links").Result()
 	if err1 != nil {
-		log.Fatal(err1)
+		return 0
 	}
 	val2, err2 := strconv.Atoi(val1)
 	if err2 != nil {
-		log.Fatal(err1)
+		return 0
 	}
 	return val2
 }
@@ -20,11 +19,11 @@ func GetTotalLinks() int {
 func GetTotalViews() int {
 	val1, err1 := Client.Get("total-views").Result()
 	if err1 != nil {
-		log.Fatal(err1)
+		return 0
 	}
 	val2, err2 := strconv.Atoi(val1)
 	if err2 != nil {
-		log.Fatal(err1)
+		return 0
 	}
 	return val2
 }
