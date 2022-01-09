@@ -16,7 +16,7 @@ COPY . .
 
 RUN go get -d -v ./...
 
-RUN go build -a -installsuffix -ldflags="-w -s -X $I_PACKAGE.GitCommitShort=$I_GitCommitShort -X $I_PACKAGE.GitBranch=$I_GitBranch" -o app .
+RUN go build -a -installsuffix -ldflags="-w -s -X $I_PACKAGE.GitCommitShort=$CI_COMMIT_SHORT_SHA -X $I_PACKAGE.GitBranch=$CI_COMMIT_BRANCH" -o app .
 
 FROM scratch as production
 WORKDIR /
