@@ -47,11 +47,35 @@ docker-build-prod-latest:
       --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
       --build-arg CI_COMMIT_BRANCH=$CI_COMMIT_BRANCH \
       --build-arg CI_COMMIT_SHORT_SHA=$CI_COMMIT_SHORT_SHA \
+      --build-arg CI_COMMIT_TAG=$CI_COMMIT_TAG \
       --push \
       --tag $CI_REGISTRY_IMAGE:latest \
       .
   only:
   - main
+
+docker-build-prod-tagged:
+  image: ezkrg/buildx
+  stage: build
+  services:
+  - docker:dind
+  before_script:
+  - docker buildx create --use
+  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+  - |
+    docker buildx build \
+      --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
+      --build-arg CI_COMMIT_BRANCH=$CI_COMMIT_BRANCH \
+      --build-arg CI_COMMIT_SHORT_SHA=$CI_COMMIT_SHORT_SHA \
+      --build-arg CI_COMMIT_TAG=$CI_COMMIT_TAG \
+      --push \
+      --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG \
+      .
+  only:
+    - tags
+  except:
+    - branches
 
 docker-build-dry-run:
   image: docker:latest
