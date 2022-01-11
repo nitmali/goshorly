@@ -11,6 +11,9 @@ An easy self-hosted Link shortener in Golang with Redis <3
 
 If you have an feature request, please do not hesitate to open an issue or merge request.
 
+Available Docker tags:
+- https://git.ucode.space/Phil/goshorly/container_registry/1
+
 Installation with Docker-Compose (with no reverse proxy / own proxy):
 ```bash
 mkdir goshorly
