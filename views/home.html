@@ -78,8 +78,12 @@
         <center>
             Made with <a href="https://git.ucode.space/Phil/goshorly"><i class="fas fa-code-branch"></i>
                 Phil/goshorly</a>
-                {{ if .GitBuild }}
-                 | {{ .GitCommitShort }}/{{ .GitBranch }}
+                {{ if .CI_BUILD }}
+                    {{ if .CI_COMMIT_TAG }}
+                 | {{ .CI_COMMIT_TAG }}
+                    {{ else }}
+                 | {{ .CI_COMMIT_SHORT_SHA }}/{{ .CI_COMMIT_BRANCH }}
+                    {{ end }}
                 {{ end }}
         </center>
     </footer>
