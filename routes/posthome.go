@@ -83,7 +83,7 @@ func Posthome(c *fiber.Ctx) error {
 		})
 	}
 
-	err = db.Client.Set(id, u.URL, 1296000*time.Second).Err()
+	err = db.Set(id, u.URL, 1296000*time.Second)
 
 	if err != nil {
 		if u.CLI {

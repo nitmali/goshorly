@@ -9,7 +9,7 @@ import (
 )
 
 func ID(c *fiber.Ctx) error {
-	val, err := db.Client.Get(c.Params("id")).Result()
+	val, err := db.Get(c.Params("id"))
 
 	if c.Get("CLI") == "1" {
 		if err != nil {
