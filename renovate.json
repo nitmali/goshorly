@@ -2,16 +2,19 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "depTypeList": [ "devDependencies", "require-dev" ],
-      "updateTypes": [ "patch", "minor", "digest"],
-      "groupName": "devDependencies (non-major)"
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
     }
   ],
+  "vulnerabilityAlerts": {
+    "labels": ["critical"],
+    "assignees": ["@Phil"]
+  },
   "extends": [
     "config:base",
     ":preserveSemverRanges",
     ":dependencyDashboard",
     ":rebaseStalePrs",
-    ":enableVulnerabilityAlertsWithLabel('security')"
+    ":enableVulnerabilityAlertsWithLabel('critical')"
   ]
 }
