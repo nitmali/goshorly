@@ -3,7 +3,7 @@
 
 An easy self-hosted Link shortener in Golang with Redis <3
 
-[Live-Demo](https://gly.one)
+[Live-Demo](https://gly.one) | Stable Build
 
 
 **WARNING:**
