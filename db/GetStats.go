@@ -5,7 +5,7 @@ import (
 )
 
 func GetTotalLinks() int {
-	val1, err1 := Client.Get(ctx, "total-links").Result()
+	val1, err1 := Client_redis().Get(ctx, "total-links").Result()
 	if err1 != nil {
 		return 0
 	}
@@ -17,7 +17,7 @@ func GetTotalLinks() int {
 }
 
 func GetTotalViews() int {
-	val1, err1 := Client.Get(ctx, "total-views").Result()
+	val1, err1 := Client_redis().Get(ctx, "total-views").Result()
 	if err1 != nil {
 		return 0
 	}

@@ -1,5 +1,5 @@
 package db
 
 func Get(input string) (string, error) {
-	return Client.Get(ctx, input).Result()
+	return Client_redis().Get(ctx, input).Result()
 }
