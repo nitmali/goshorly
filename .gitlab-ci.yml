@@ -43,7 +43,7 @@ release-prod-linux-amd64:
     CGO_ENABLED: 0
   before_script:
   - go get -d -v ./...
-  - apk add curl
+  - apt install curl -y
   script:
   - go build -a -installsuffix cgo -ldflags="-X $I_PACKAGE.CI_COMMIT_SHORT_SHA=$CI_COMMIT_SHORT_SHA -X $I_PACKAGE.CI_COMMIT_BRANCH=$CI_COMMIT_BRANCH -X $I_PACKAGE.CI_COMMIT_TAG=$CI_COMMIT_TAG" -o linux-amd64 .
   - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file linux-amd64 "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/release-${CI_COMMIT_TAG}/${CI_COMMIT_TAG}/linux-amd64"'
@@ -62,7 +62,7 @@ release-prod-linux-arm64:
     CGO_ENABLED: 0
   before_script:
   - go get -d -v ./...
-  - apk add curl
+  - apt install curl -y
   script:
   - go build -a -installsuffix cgo -ldflags="-X $I_PACKAGE.CI_COMMIT_SHORT_SHA=$CI_COMMIT_SHORT_SHA -X $I_PACKAGE.CI_COMMIT_BRANCH=$CI_COMMIT_BRANCH -X $I_PACKAGE.CI_COMMIT_TAG=$CI_COMMIT_TAG" -o linux-arm64 .
   - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file linux-arm64 "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/release-${CI_COMMIT_TAG}/${CI_COMMIT_TAG}/linux-arm64"'
@@ -81,7 +81,7 @@ release-prod-darwin-amd64:
     CGO_ENABLED: 0
   before_script:
   - go get -d -v ./...
-  - apk add curl
+  - apt install curl -y
   script:
   - go build -a -installsuffix cgo -ldflags="-X $I_PACKAGE.CI_COMMIT_SHORT_SHA=$CI_COMMIT_SHORT_SHA -X $I_PACKAGE.CI_COMMIT_BRANCH=$CI_COMMIT_BRANCH -X $I_PACKAGE.CI_COMMIT_TAG=$CI_COMMIT_TAG" -o darwin-amd64 .
   - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file darwin-amd64 "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/release-${CI_COMMIT_TAG}/${CI_COMMIT_TAG}/darwin-amd64"'
@@ -100,7 +100,7 @@ release-prod-darwin-arm64:
     CGO_ENABLED: 0
   before_script:
   - go get -d -v ./...
-  - apk add curl
+  - apt install curl -y
   script:
   - go build -a -installsuffix cgo -ldflags="-X $I_PACKAGE.CI_COMMIT_SHORT_SHA=$CI_COMMIT_SHORT_SHA -X $I_PACKAGE.CI_COMMIT_BRANCH=$CI_COMMIT_BRANCH -X $I_PACKAGE.CI_COMMIT_TAG=$CI_COMMIT_TAG" -o darwin-arm64 .
   - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file darwin-arm64 "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/release-${CI_COMMIT_TAG}/${CI_COMMIT_TAG}/darwin-arm64"'
@@ -119,7 +119,7 @@ release-prod-windows-amd64:
     CGO_ENABLED: 0
   before_script:
   - go get -d -v ./...
-  - apk add curl
+  - apt install curl -y
   script:
   - go build -a -installsuffix cgo -ldflags="-X $I_PACKAGE.CI_COMMIT_SHORT_SHA=$CI_COMMIT_SHORT_SHA -X $I_PACKAGE.CI_COMMIT_BRANCH=$CI_COMMIT_BRANCH -X $I_PACKAGE.CI_COMMIT_TAG=$CI_COMMIT_TAG" -o windows-amd64.exe .
   - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file windows-amd64.exe "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/release-${CI_COMMIT_TAG}/${CI_COMMIT_TAG}/windows-amd64.exe"'
