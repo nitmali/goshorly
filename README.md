@@ -7,7 +7,7 @@ An easy self-hosted Link shortener in Golang with Redis <3 [Live-Demo](https://g
 ## Supported architectures
 ### Docker
 - amd64, arm64
-- other versions can be build manually (via docker build)
+- other versions can be build manually (via docker build / buildx)
 ## Binary Build
 - linux (amd64,arm64)
 - darwin (amd64,arm64)
