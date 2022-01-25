@@ -1,5 +1,10 @@
 package utils
 
+import (
+	"fmt"
+	"time"
+)
+
 var (
 	CI_COMMIT_SHORT_SHA string
 	CI_COMMIT_BRANCH    string
@@ -19,4 +24,17 @@ func Init_build_vars() {
 	} else {
 		CI_TAGGED = true
 	}
+}
+
+func Print_Starting_Screen() {
+	if CI_BUILD {
+		if CI_TAGGED {
+			fmt.Println("---- Starting goshorly " + CI_COMMIT_TAG + " ----")
+		} else {
+			fmt.Println("---- Starting goshorly " + CI_COMMIT_SHORT_SHA + " ----")
+		}
+	} else {
+		fmt.Println("---- Starting goshorly " + "unknown version" + " ----")
+	}
+	time.Sleep(1 * time.Second)
 }
