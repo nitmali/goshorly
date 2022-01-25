@@ -8,7 +8,7 @@ stages:
 - build-docker
 
 check-format:
-  image: golang:alpine
+  image: golang:latest
   stage: test
   before_script:
   - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
@@ -22,7 +22,7 @@ check-format:
   - merge_requests
 
 check-gosec:
-  image: golang:alpine
+  image: golang:latest
   before_script:
   - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
   - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
