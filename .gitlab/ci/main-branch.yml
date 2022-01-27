@@ -20,13 +20,13 @@ docker-build-prod-latest:
   - main
 
 generate-deploy-docs:
-  stage: docs
+  stage: deploy
   image: python:alpine
   script:
   - pip install --no-cache-dir -r mkdocs-req.txt
   - python -m mkdocs build --strict --verbose
   artifacts:
     paths:
-    - docs-public
+    - public
   only:
   - main

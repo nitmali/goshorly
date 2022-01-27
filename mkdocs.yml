@@ -1,7 +1,7 @@
 site_name: goshorly docs
 site_url: https://phil.mekelek.de/goshorly
 repo_url: https://git.ucode.space/Phil/goshorly
-site_dir: docs-public
+site_dir: public
 theme:
   name: material
   locale: en

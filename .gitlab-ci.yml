@@ -6,7 +6,7 @@ stages:
 - test
 - build-binary
 - build-docker
-- docs
+- deploy
 
 include:
   - '/.gitlab/ci/always.yml'
