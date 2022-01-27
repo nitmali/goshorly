@@ -21,8 +21,10 @@ docker-build-prod-latest:
 
 generate-deploy-docs:
   stage: docs
+  image: python:alpine
   script:
-  - mkdocs build --strict --verbose
+  - pip install --no-cache-dir -r mkdocs-req.txt
+  - python -m mkdocs build --strict --verbose
   artifacts:
     paths:
     - docs-public
