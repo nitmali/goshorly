@@ -18,3 +18,13 @@ docker-build-prod-latest:
       .
   only:
   - main
+
+generate-deploy-docs:
+  stage: docs
+  script:
+  - mkdocs build --strict --verbose
+  artifacts:
+    paths:
+    - docs-public
+  only:
+  - main
