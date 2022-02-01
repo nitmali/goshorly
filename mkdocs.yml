@@ -9,3 +9,6 @@ theme:
 
 nav:
   - Home: 'index.md'
+  - Installation:
+    - Docker: 'deploy/docker.md'
+    - Binary: 'deploy/binary.md'
