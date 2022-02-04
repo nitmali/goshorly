@@ -18,12 +18,13 @@ build-test-linux-amd64:
     expire_in: 1 week
 
 docker-build-prod-latest:
-  image: ezkrg/buildx
+  image: jdrouet/docker-with-buildx:stable
   stage: build-docker
   services:
   - docker:dind
   before_script:
-  - docker buildx create --use
+  - docker context create build
+  - docker buildx create build --use
   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
   - |
