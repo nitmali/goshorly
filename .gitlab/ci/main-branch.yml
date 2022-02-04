@@ -18,7 +18,7 @@ build-test-linux-amd64:
     expire_in: 1 week
 
 docker-build-prod-latest:
-  image: ezkrg/buildx
+  image: jdrouet/docker-with-buildx:stable
   stage: build-docker
   services:
   - docker:dind
