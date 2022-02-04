@@ -23,7 +23,7 @@ docker-build-prod-latest:
   services:
   - docker:dind
   before_script:
-  - docker buildx create --use
+  - docker buildx use test
   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
   - |
