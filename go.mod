@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/go-redis/redis/v8 v8.11.4
 	github.com/gofiber/fiber/v2 v2.26.0
-	github.com/gofiber/template v1.6.21
+	github.com/gofiber/template v1.6.22
 	github.com/matoous/go-nanoid/v2 v2.0.0
 )
 
