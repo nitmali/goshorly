@@ -16,5 +16,6 @@
     ":dependencyDashboard",
     ":rebaseStalePrs",
     ":enableVulnerabilityAlertsWithLabel('critical')"
-  ]
+  ],
+  "commitBody": "[skip ci]"
 }
