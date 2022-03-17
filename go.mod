@@ -3,7 +3,7 @@ module git.ucode.space/Phil/goshorly
 go 1.17
 
 require (
-	github.com/go-redis/redis/v8 v8.11.4
+	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gofiber/fiber/v2 v2.29.0
 	github.com/gofiber/template v1.6.25
 	github.com/matoous/go-nanoid/v2 v2.0.0
