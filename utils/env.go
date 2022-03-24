@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+
+	"github.com/joho/godotenv"
 )
 
 var (
@@ -15,6 +17,13 @@ var (
 	REDIS_URI string
 	ESTATS    string
 )
+
+func Init_env_file() {
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("INFO: ", "Error loading .env file using environment variables")
+	}
+}
 
 func Init_env_vars() {
 	fmt.Println("-- Initializing environment variables... --")

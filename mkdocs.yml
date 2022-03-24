@@ -12,3 +12,4 @@ nav:
   - Installation:
     - Docker: 'deploy/docker.md'
     - Binary: 'deploy/binary.md'
+  - Environment: 'environment.md'

@@ -24,4 +24,4 @@ Just run the executable in a Powershell (windows) or Terminal (linux/darwin)
 #### .env File
 To use the binary version you need to create an .env file in the directory.
 
-**This feature is coming soon**
+Please see the [Environment List](../environment.md) for further details.
