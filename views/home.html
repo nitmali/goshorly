@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>goshorly</title>
+    <title>To short link</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -31,17 +31,17 @@
     <br><br>
     <div class="container">
         <div class="jumbotron">
-            <h1>goshorly</h1>
-            <p>An dead simple & fast URL shortener. <br>
-                All shorten URLs will be available for 30days!
+            <h1>To short link</h1>
+            <p>一个简单而快速的 短连接 生成器<br>
+                所有短连接有效期为7天，7天未使用则会回收短连接，7天内使用会重置有效时间。
             </p>
             {{ if and .TotalLinks .TotalViews }}
-            <p>This Instance has served over {{ .TotalLinks }} URLs and {{ .TotalViews }} total Views!</p>
+            <p>已提供超过 {{ .TotalLinks }} 次连接跳转， 共计生成 {{ .TotalViews }} 个短连接!</p>
             {{ end }}
             <hr>
             <form method="post" action="#">
                 <fieldset>
-                    <input type="text" class="form-control" id="surl" name="surl" placeholder="https://google.de"
+                    <input type="text" class="form-control" id="surl" name="surl" placeholder="https://git.ucode.space/Phil/goshorly"
                         required>
                     <br>
                     <center>

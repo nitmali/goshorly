@@ -1,6 +1,6 @@
 site_name: goshorly docs
-site_url: https://phil.mekelek.de/goshorly
-repo_url: https://git.ucode.space/Phil/goshorly
+site_url: https://2slk.com
+repo_url: https://github.com/nitmali/goshorly
 site_dir: public
 theme:
   name: material
@@ -11,5 +11,4 @@ nav:
   - Home: 'index.md'
   - Installation:
     - Docker: 'deploy/docker.md'
-    - Binary: 'deploy/binary.md'
   - Environment: 'environment.md'

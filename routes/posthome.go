@@ -7,7 +7,6 @@ import (
 
 	"git.ucode.space/Phil/goshorly/db"
 	"git.ucode.space/Phil/goshorly/utils"
-	"github.com/gofiber/fiber/v2"
 	gonanoid "github.com/matoous/go-nanoid/v2"
 )
 
@@ -83,7 +82,7 @@ func Posthome(c *fiber.Ctx) error {
 		})
 	}
 
-	err = db.Set(id, u.URL, 1296000*time.Second)
+	err = db.Set(id, u.URL, 7*24*time.Minute)
 
 	if err != nil {
 		if u.CLI {
