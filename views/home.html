@@ -41,7 +41,7 @@
             <hr>
             <form method="post" action="#">
                 <fieldset>
-                    <input type="text" class="form-control" id="surl" name="surl" placeholder="https://git.ucode.space/Phil/goshorly"
+                    <input type="text" class="form-control" id="surl" name="surl" placeholder="例如：https://www.mediawiki.org/wiki/Extension_talk:UrlShortener"
                         required>
                     <br>
                     <center>
@@ -58,7 +58,7 @@
             <br>
             <center>
                 <button class="btn-copy btn btn-success" data-clipboard-target="#foo">
-                    Copy to clipboard
+                    点击复制
                 </button>
             </center>
         </div>
@@ -76,8 +76,8 @@
     <!-- Footer with Build-Check -->
     <footer>
         <center>
-            Made with <a href="https://git.ucode.space/Phil/goshorly"><i class="fas fa-code-branch"></i>
-                Phil/goshorly</a>
+            Made with <a href="https://github.com/nitmali/goshorly"><i class="fas fa-code-branch"></i>
+            nitmali/goshorly</a>
                 {{ if .CI_BUILD }}
                     {{ if .CI_COMMIT_TAG }}
                  | {{ .CI_COMMIT_TAG }}
