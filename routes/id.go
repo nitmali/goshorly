@@ -40,7 +40,7 @@ func ID(c *fiber.Ctx) error {
 		log.Fatal(err.Error())
 	}
 	// reset effective time
-	err = db.Set(c.Params("id"), val, 7*24*time.Minute)
+	err = db.SetEX(c.Params("id"), val, 7*24*time.Minute)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
