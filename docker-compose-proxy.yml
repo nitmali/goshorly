@@ -2,7 +2,7 @@ version: "3"
 services:
   web:
     # build: .                  # Only if you want to Build the image on your own Server!
-    image: nitmali/goshorly:latest
+    image: goshorly:latest
     environment:
       - HOST=127.0.0.1          # Domain or IP-Adress
       - PORT=3000               # The Port you want to use
